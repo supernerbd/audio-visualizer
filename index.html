@@ -8,10 +8,31 @@
 	</style>
 	<link rel="stylesheet" type="text.css" href="resources/index.css">
 	<script>
-	    
+	var showMenu=false;
+	    function hamburger (){
+		if(showMenu){
+				document.querySelector("#menu").style.setProperty("display","none");
+				showMenu=false;
+				}
+				else{
+				document.querySelector("#menu").style.setProperty("display","inherit");
+				showMenu=true;
+				}
+			};
 	</script>
 </head>
 <body>
-    
+    <canvas id="canvas" width="640" height="400"></canvas> <!-- canvas height and width has to be changed in init()-->
+	<div id="hamburger" onclick="hamburger()">
+		
+	</div>
+	
+	<div id="controls">
+		<!--controls in here-->
+	</div>
+	<div id="menu">
+		<!--menu in here-->
+		
+	</div>
 </body>
 </html>
