@@ -11,5 +11,4 @@ Feature Ideas:
     - up to four canvases 
     - equalizer
     - UI menu's on top, canvas 100& of the page
-    - 
-    
+    - using mouse position, draw circles from center from cursor; if user clicks, cricles stay put
