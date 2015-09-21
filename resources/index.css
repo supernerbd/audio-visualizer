@@ -11,6 +11,12 @@ canvas {
 body {
     background: #FFF;
 }
+#content {
+	position:fixed;
+	top:138px;
+	z-index:3;
+	
+}
 #hamburger {
 	color:black;
 	position: fixed;
@@ -31,7 +37,7 @@ body {
 	top: 75%;
 	left:10%;
 	z-index:2;
-	display: none;
+	/*display: none;*/
 }
 
 #menu{
