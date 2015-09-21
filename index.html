@@ -9,8 +9,10 @@
 	<link rel="stylesheet" type="text.css" href="resources/index.css">
 	<script>
 	var showMenu=false;
+	var width=window.innerWidth;
+	var height=window.innerHeight; 
 	    function hamburger (){
-		if(showMenu){
+			if(showMenu){
 				document.querySelector("#menu").style.setProperty("display","none");
 				showMenu=false;
 				}
@@ -19,6 +21,16 @@
 				showMenu=true;
 				}
 			};
+		function init (){
+			document.querySelector('#canvas').width=width; //resize the canvas drawing area.
+			document.querySelector('#canvas').height=height;
+			var canvas = document.querySelector ('#canvas');
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = 'green';
+			ctx.fillRect(0,0,width,height);
+		}
+		window.onload=init;
+		window.onresize=init;
 	</script>
 </head>
 <body>
