@@ -15,7 +15,7 @@ body {
 	position:fixed;
 	top:138px;
 	z-index:3;
-	
+	overflow:auto;
 }
 #hamburger {
 	color:black;
@@ -46,9 +46,16 @@ body {
 	left:8px;
 	margin:0px;
 	padding: 0px;
-	width: 200px;
-	height: 90%;
+	width: 400px;
+	height: 100%;
 	z-index: 2;
 	background-color:grey;
 	display:none;
+	overflow:auto;
+}
+#pEffects{
+	float:right;
+}
+#cEffects{
+	float:left;
 }

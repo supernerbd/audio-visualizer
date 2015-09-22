@@ -5,7 +5,7 @@
 
 //variables
 
-
+//
 var showMenu=false;
 //var controls=false;
 var width=window.innerWidth;
@@ -20,12 +20,19 @@ var canvas,ctx;
 var maxRadius=200;
 var invert=false;
 var tintRed=false;
+var tintBlue = false, tintGreen = false;
 var noise=false;
 var lines=false;
 var bwNoise=false;
+//
+var mCircle=false;
+var mSquare=false;
+var circle=false;
+var clines=false;
+//
 var delayAmount=0;
 var delayNode;
-
+//from juli tint blue, tint green, circle, squares
 
 //Init and resize
 
@@ -46,7 +53,7 @@ function init(){
 	//	console.log("init");}
 }
 window.onload = init;
-window.onresize = init;
+//window.onresize = init;
 
 
 //UI
@@ -80,6 +87,22 @@ function setupUI(){
 			tintRed=false;
 		}
 	};
+	document.querySelector("#blue").onchange = function(e){
+		if(e.target.checked){
+			tintBlue=true;
+		}
+		else{
+			tintBlue=false;
+		}
+	};
+	document.querySelector("#green").onchange = function(e){
+		if(e.target.checked){
+			tintGreen=true;
+		}
+		else{
+			tintGreen=false;
+		}
+	};
 	document.querySelector("#invert").onchange = function(e){
 		if(e.target.checked){
 			invert=true;
@@ -110,6 +133,38 @@ function setupUI(){
 		}
 		else{
 			bwNoise=false;
+		}
+	};
+	document.querySelector("#mCircle").onchange = function(e){
+		if(e.target.checked){
+			mCircle=true;
+		}
+		else{
+			mCircle=false;
+		}
+	};
+	document.querySelector("#mSquare").onchange = function(e){
+		if(e.target.checked){
+			mSquare=true;
+		}
+		else{
+			mSquare=false;
+		}
+	};
+	document.querySelector("#circle").onchange = function(e){
+		if(e.target.checked){
+			circle=true;
+		}
+		else{
+			circle=false;
+		}
+	};
+	document.querySelector("#clines").onchange = function(e){
+		if(e.target.checked){
+			clines=true;
+		}
+		else{
+			clines=false;
 		}
 	};
 	/*document.querySelector("#delaySlider").onchange = function(e){
@@ -207,53 +262,111 @@ function animation(){
 	
 	// drawings
 	ctx.clearRect(0,0,width,height);  
-	var barWidth = 4;
+	var barWidth = Math.floor(width/data.length);
 	var barSpacing = 1;
-	var barHeight = 100;
+	var barHeight = height/2;
 	var topSpacing = 50;
 	
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
+		var percent = data[i]/255;
 		//Lines
-		ctx.save();
-		ctx.strokeStyle="red";
-		ctx.lineWidth=barWidth;
-		ctx.beginPath();
-		ctx.translate(0, canvas.height);
-		ctx.scale(1, -1);
-		ctx.moveTo(i*(barWidth + barSpacing),1);
-		ctx.lineTo(i*(barWidth + barSpacing),data[i]);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.restore();
+		if(clines){
+			ctx.save();
+			ctx.strokeStyle="red";
+			ctx.lineWidth=barWidth;
+			ctx.beginPath();
+			ctx.translate(0, canvas.height);
+			ctx.scale(1, -1);
+			ctx.moveTo(i*(barWidth + barSpacing),1);
+			ctx.lineTo(i*(barWidth + barSpacing),data[i]);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.restore();
+		}
 		// the higher the amplitude of the sample (bin) the taller the bar
 		// remember we have to draw our bars left-to-right and top-down
 		//ctx.fillRect(i * (barWidth + barSpacing),topSpacing + 256-data[i],barWidth,barHeight); 
 		// draw inverted bars
 		//ctx.fillRect(640-i* (barWidth + barSpacing),topSpacing+256-data[i]-20,barWidth,barHeight);
 			
-		//red-ish circles
-		var percent = data[i]/255;
-		var circleRadius = percent*maxRadius;
-		ctx.beginPath();
-		ctx.fillStyle=makeColor(255, 111, 111, .34-percent/3.0);
-		ctx.arc(canvas.width/2, canvas.height/2, circleRadius, 0, 2*Math.PI, false);
-		ctx.fill();
-		ctx.closePath;
-		//blue-ish circles, bigger, more transparent
-		ctx.beginPath();
-		ctx.fillStyle=makeColor(0,0,255, .10-percent/10.0);
-		ctx.arc(canvas.width/2,canvas.height/2,circleRadius*1.5,0,2*Math.PI, false);
-		ctx.fill();
-		ctx.closePath();
-		//yellow-ish circles, smaller
-		ctx.save();
-		ctx.beginPath();
-		ctx.fillStyle=makeColor(200,200,0,.5-percent/5.0);
-		ctx.arc(canvas.width/2, canvas.height/2,circleRadius*.50,0,2*Math.PI,false);
-		ctx.fill();
-		ctx.closePath();
-		ctx.restore();
+		//circles in the middle
+		if(mCircle){
+			//red-ish circles
+			var circleRadius = percent*maxRadius;
+			ctx.beginPath();
+			ctx.fillStyle=makeColor(255, 111, 111, .34-percent/3.0);
+			ctx.arc(canvas.width/2, canvas.height/2, circleRadius, 0, 2*Math.PI, false);
+			ctx.fill();
+			ctx.closePath;
+			//blue-ish circles, bigger, more transparent
+			ctx.beginPath();
+			ctx.fillStyle=makeColor(0,0,255, .10-percent/10.0);
+			ctx.arc(canvas.width/2,canvas.height/2,circleRadius*1.5,0,2*Math.PI, false);
+			ctx.fill();
+			ctx.closePath();
+			//yellow-ish circles, smaller
+			ctx.save();
+			ctx.beginPath();
+			ctx.fillStyle=makeColor(200,200,0,.5-percent/5.0);
+			ctx.arc(canvas.width/2, canvas.height/2,circleRadius*.50,0,2*Math.PI,false);
+			ctx.fill();
+			ctx.closePath();
+			ctx.restore();
+		}
+		//Squares
+		if(mSquare){
+			var maxSize = 300;
+			var rectSize = percent * maxSize;
+			ctx.fillStyle = makeColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6);
+			ctx.fillRect(canvas.width/2,canvas.height/2, rectSize, rectSize);
+			ctx.fillRect(canvas.width/2,canvas.height/2, -rectSize, -rectSize);
+			ctx.fillRect(canvas.width/2,canvas.height/2, rectSize, -rectSize);
+			ctx.fillRect(canvas.width/2,canvas.height/2, -rectSize, rectSize);
+		}
+		
+		//mini circles
+		if(circle){
+			//draw circles to the center
+				ctx.strokeStyle = 'rgba(0,255,0,0.6)'; 
+				ctx.strokeWidth = 5;
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(322 + i * (barWidth + barSpacing),topSpacing + 230-data[i]);
+				ctx.arc(0,0,10,0, Math.PI*2, false);
+				ctx.closePath();
+				ctx.stroke();
+				ctx.restore();
+				
+				//draw inverted circles to the center
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(317 - i * (barWidth + barSpacing),topSpacing + 230-data[i]);
+				ctx.arc(0,0,10,0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.stroke();				
+				ctx.restore();
+				
+				// HARD MODE MORE CIRCLES
+				
+				//draw circles to the center
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(322 + i * (barWidth + barSpacing),topSpacing + 100+data[i]);
+				ctx.arc(0,0,10,0, Math.PI*2, false);
+				ctx.closePath();
+				ctx.stroke();
+				ctx.restore();
+				
+				//draw inverted circles to the center
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(317 - i * (barWidth + barSpacing),topSpacing + 100+data[i]);
+				ctx.arc(0,0,10,0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.stroke();				
+				ctx.restore();
+		}
 	}
 	manipulatePixels(); 
 } 
@@ -266,9 +379,15 @@ function manipulatePixels(){
 			
 	//manipulate through each pixel
 	for (var i=0;i<length;i+=4){
-		//redisch
+		//color
 		if(tintRed){
 			data[i]=data[i]+100;
+		}
+		if(tintBlue) {
+			data[i+1] = data[i] + 100;
+		}
+		if(tintGreen) {
+			data[i+2] = data[i] + 100;
 		}
 		//inverted
 		if(invert){
