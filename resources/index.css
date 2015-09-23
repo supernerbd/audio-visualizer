@@ -8,26 +8,28 @@ canvas {
 	height: 100%;
 	z-index: 1;
 }
+
 body {
-    background: #FFF;
+    background: #A3A3D8;
 }
+
 #content {
 	position:fixed;
 	top:138px;
 	z-index:3;
 	overflow:auto;
 }
+
 #hamburger {
 	color:black;
 	position: fixed;
 	top: 10px;
-	left: 40px;
+	left: 120px;
 	height:128px;
 	width:128px;
 	background-image: url(hamburger.png);
 	z-index:3;
 }
-
 
 #controls{
 	background: black;
@@ -45,17 +47,23 @@ body {
 	top:8px;
 	left:8px;
 	margin:0px;
-	padding: 0px;
-	width: 400px;
+	padding: 10px;
+	width: 350px;
 	height: 100%;
 	z-index: 2;
-	background-color:grey;
+	background-color:#141447;
 	display:none;
 	overflow:auto;
+	color:#E4E4FA;
+	font-family: Arial, serif;
+	font-size: 14px;
+	text-align: center;
 }
+
 #pEffects{
 	float:right;
 }
+
 #cEffects{
 	float:left;
 }

@@ -17,19 +17,16 @@ var SOUND_3 = 'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
 var canvas,ctx;
+
+// pixel manip vars
+var tintRed = false, tintBlue = false, tintGreen = false;
+var noise = false, lines = false, bwNoise = false;
+//animation vars
+var mCircle = false, mSquare = false, circle = false, clines = false, invert = false;
 var maxRadius=200;
-var invert=false;
-var tintRed=false;
-var tintBlue = false, tintGreen = false;
-var noise=false;
-var lines=false;
-var bwNoise=false;
-//
-var mCircle=false;
-var mSquare=false;
-var circle=false;
-var clines=false;
-//
+//interactive vars
+
+
 var delayAmount=0;
 var delayNode;
 //from juli tint blue, tint green, circle, squares
@@ -370,6 +367,23 @@ function animation(){
 	}
 	manipulatePixels(); 
 } 
+//drawing functions; used by several functions
+function drawCricles(x, y, percent, maxRadius, fillStyle){
+	var circleRadius = percent * maxRadius;
+	ctx.beginPath();
+	ctx.fillStyle = fillStyle;
+	ctx.arc(x, y, circleRadius, 0, 2*Math.PI, false);
+	ctx.fill();
+	ctx.closePath;
+}
+function drawSquares(x, y, percent, maxSize, fillStyle){
+	var rectSize = percent * maxSize;
+	ctx.fillStyle = fillStyle;
+	ctx.fillRect(x,y, rectSize, rectSize);
+	ctx.fillRect(x,y, -rectSize, -rectSize);
+	ctx.fillRect(x,y, rectSize, -rectSize);
+	ctx.fillRect(x,y, -rectSize, rectSize);	
+}
 // Pixel Manipulation
 function manipulatePixels(){
 	var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -420,7 +434,10 @@ function manipulatePixels(){
 	}
 ctx.putImageData(imageData,0,0);
 }
-
+//user mouse interactions
+function mouseAnimation(){
+	getMouse();
+	
 
 //HELPER (didn't worked in the untilities file.)
 

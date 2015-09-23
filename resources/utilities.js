@@ -12,7 +12,7 @@ function getRandom(min,max){
 	return Math.random() * (max-min) + min;
 }
 
-function getColor(){
-	
-	
+function getColor(red, green, blue, alpha){
+	var color='rgba('+red+','+green+','+blue+', '+alpha+')';
+	return color;	
 }
