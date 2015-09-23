@@ -437,7 +437,7 @@ ctx.putImageData(imageData,0,0);
 //user mouse interactions
 function mouseAnimation(){
 	getMouse();
-	
+}
 
 //HELPER (didn't worked in the untilities file.)
 
