@@ -332,7 +332,7 @@ function animation(){
 				ctx.strokeWidth = 5;
 				ctx.save();
 				ctx.beginPath();
-				ctx.translate(322 + i * (barWidth + barSpacing),topSpacing + 230-data[i]);
+				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
 				ctx.arc(0,0,10,0, Math.PI*2, false);
 				ctx.closePath();
 				ctx.stroke();
@@ -341,7 +341,7 @@ function animation(){
 				//draw inverted circles to the center
 				ctx.save();
 				ctx.beginPath();
-				ctx.translate(317 - i * (barWidth + barSpacing),topSpacing + 230-data[i]);
+				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
 				ctx.arc(0,0,10,0, Math.PI*2, true);
 				ctx.closePath();
 				ctx.stroke();				
@@ -352,7 +352,7 @@ function animation(){
 				//draw circles to the center
 				ctx.save();
 				ctx.beginPath();
-				ctx.translate(322 + i * (barWidth + barSpacing),topSpacing + 100+data[i]);
+				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
 				ctx.arc(0,0,10,0, Math.PI*2, false);
 				ctx.closePath();
 				ctx.stroke();
@@ -361,7 +361,7 @@ function animation(){
 				//draw inverted circles to the center
 				ctx.save();
 				ctx.beginPath();
-				ctx.translate(317 - i * (barWidth + barSpacing),topSpacing + 100+data[i]);
+				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
 				ctx.arc(0,0,10,0, Math.PI*2, true);
 				ctx.closePath();
 				ctx.stroke();				
