@@ -19,6 +19,12 @@ h3 {
 	padding: 0px;
 }
 
+p {
+	text-align: center;
+	font-size: 11px;
+	
+}
+
 button, label, select {
 	font-size: 11px;
 	padding-left: 5px;

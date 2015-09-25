@@ -11,9 +11,9 @@ var showMenu=false;
 var width=window.innerWidth;
 var height=window.innerHeight;
 var NUM_SAMPLES = 256;
-var SOUND_1 = 'media/New Adventure Theme.mp3';
-var SOUND_2 = 'media/Peanuts Theme.mp3';
-var SOUND_3 = 'media/The Picard Song.mp3';
+var SOUND_1 = 'media/Fake Orchestra.mp3'; //'media/New Adventure Theme.mp3';
+var SOUND_2 = 'media/Flesh Maze Tango.mp3'; //'media/Peanuts Theme.mp3';
+var SOUND_3 = 'media/Peper Steak'; //'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
 var canvas,ctx;
@@ -23,8 +23,11 @@ var img;
 var tintRed = false, tintBlue = false, tintGreen = false;
 var noise = false, lines = false, bwNoise = false;
 //animation vars
-var mCircle = false, mSquare = false, circle = false, clines = false, invert = false;
+var mCircle = false, mSquare = true, circle = true, clines = false, invert = false;
 var maxRadius=200;
+
+
+
 //interactive vars
 
 
@@ -169,6 +172,10 @@ function setupUI(){
 		else{
 			clines=false;
 		}
+	};
+	
+	document.querySelector("#canvas").mouseover = function(e){
+		mouseAnimation(e);
 	};
 	/*document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
@@ -442,8 +449,12 @@ function manipulatePixels(){
 ctx.putImageData(imageData,0,0);
 }
 //user mouse interactions
-function mouseAnimation(){
+function mouseAnimation(e){
 	getMouse();
+	
+	drawCircles(mouse.x, mouse.y, 0, 100, 'rgba(255,0,0,0.6)');
+	
+	
 }
 
 //HELPER (didn't worked in the untilities file.)
