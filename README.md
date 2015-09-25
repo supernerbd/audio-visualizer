@@ -12,3 +12,12 @@ Feature Ideas:
     - equalizer
     - UI menu's on top, canvas 100& of the page
     - using mouse position, draw circles from center from cursor; if user clicks, cricles stay put
+	
+ToDo:
+ - add music
+ - background image (changeable)
+ - click events
+ - change effects for click event
+ - wave form/... change 
+ - one more audio node (equalizer)
+ - polish	
