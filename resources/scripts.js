@@ -17,7 +17,7 @@ var SOUND_3 = 'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
 var canvas,ctx;
-var background;
+var background="none";
 // pixel manip vars
 var tintRed = false, tintBlue = false, tintGreen = false;
 var noise = false, lines = false, bwNoise = false;
@@ -66,8 +66,9 @@ function hamburger (){
 	}
 }
 function changeBackground (id){
-	var img=document.querySelector(id);
-	ctx.drawImage(img,width/2,height/2);
+	if (id!=="none"){
+	var background=document.getElementById(id);
+	}
 }
 function setupUI(){
 	document.querySelector("#trackSelect").onchange = function(e){
@@ -269,7 +270,9 @@ function animation(){
 	var barSpacing = 1;
 	var barHeight = height/2;
 	var topSpacing = 50;
-	
+	if (background!=="none"){
+	ctx.drawImage(background,width/2,height/2);
+	}
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
 		var percent = data[i]/255;
