@@ -17,7 +17,7 @@ var SOUND_3 = 'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
 var canvas,ctx;
-
+var background;
 // pixel manip vars
 var tintRed = false, tintBlue = false, tintGreen = false;
 var noise = false, lines = false, bwNoise = false;
@@ -29,7 +29,6 @@ var maxRadius=200;
 
 var delayAmount=0;
 var delayNode;
-//from juli tint blue, tint green, circle, squares
 
 //Init and resize
 
@@ -66,9 +65,16 @@ function hamburger (){
 		showMenu=true;
 	}
 }
+function changeBackground (id){
+	var img=document.querySelector(id);
+	ctx.drawImage(img,width/2,height/2);
+}
 function setupUI(){
 	document.querySelector("#trackSelect").onchange = function(e){
 		playStream(audioElement,e.target.value);
+	};
+	document.querySelector("#backgroundSelect").onchange = function(e){
+		changeBackground(e.target.value);
 	};
 		document.querySelector("#fsButton").onclick = function(){
 		requestFullscreen(canvas);

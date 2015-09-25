@@ -10,7 +10,7 @@ canvas {
 }
 
 body {
-    background: #A3A3D8;
+   /* background: #A3A3D8;*/
 }
 
 h3 {
@@ -71,7 +71,9 @@ button, label, select {
 	font-size: 14px;
 	text-align: center;
 }
-
+#pic1, #pic2, #pic3 {
+	display:none;
+}
 #pEffects{
 	float:right;
 }

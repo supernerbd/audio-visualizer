@@ -29,6 +29,15 @@
 				<option value="media/Peanuts Theme.mp3">Peanuts Theme</option>
 				<option value="media/The Picard Song.mp3">The Picard Song</option>
 			</select>
+		</label>
+		<label>Background picture: <!-- fill in pics here-->
+			<select id="backgroundSelect" >
+				<option value="none">none</option>
+				<option value="pic1">1</option>
+				<option value="pic2">2</option>
+				<option value="pic3">3</option>
+			</select>
+		</label>
 		<button id="fsButton">Go Full Screen</button>
 			
 		<h3>Display Effects:</h3>			
@@ -53,5 +62,8 @@
 		
 	</div>
 	<canvas id="canvas" width="640" height="400"></canvas> <!-- canvas height and width has to be changed in init()-->
+	<img src="media/1.jpg" id="pic1"/>
+	<img src="media/2.jpg" id="pic2"/>
+	<img src="media/3.jpg" id="pic3"/>
 </body>
 </html>
