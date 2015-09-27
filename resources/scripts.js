@@ -296,7 +296,7 @@ function animation(){
 		//Lines
 		if(clines){
 			ctx.save();
-			ctx.strokeStyle="red";
+			ctx.strokeStyle=drawGradients();//"red";
 			ctx.lineWidth=barWidth;
 			ctx.beginPath();
 			ctx.translate(0, canvas.height);
@@ -410,6 +410,17 @@ function drawSquares(x, y, percent, maxSize, fillStyle){
 	ctx.fillRect(x,y, rectSize, -rectSize);
 	ctx.fillRect(x,y, -rectSize, rectSize);	
 }
+function drawGradients() {
+		var grad = ctx.createLinearGradient(0,0,width,height);
+		grad.addColorStop(0, 'red');
+		grad.addColorStop(1 / 6, 'orange');
+		grad.addColorStop(2 / 6, 'yellow');
+		grad.addColorStop(3 / 6, 'green')
+		grad.addColorStop(4 / 6, 'aqua');
+		grad.addColorStop(5 / 6, 'blue');
+		grad.addColorStop(1, 'purple');
+		return grad;
+	}
 // Pixel Manipulation
 function manipulatePixels(){
 	var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
