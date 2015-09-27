@@ -17,8 +17,7 @@ var SOUND_3 = 'media/Peper Steak'; //'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
 var canvas,ctx;
-var background=false;
-var img;
+var background;
 // pixel manip vars
 var tintRed = false, tintBlue = false, tintGreen = false;
 var noise = false, lines = false, bwNoise = false;
@@ -26,11 +25,13 @@ var noise = false, lines = false, bwNoise = false;
 var mCircle = false, mSquare = true, circle = true, clines = false, invert = false;
 var maxRadius=200;
 
-
+var data;
+var percent;
 
 //interactive vars
+var mouse;
+var mouseMove = false, mouseDown = false;
 
-var dataType=true; //true == frequency data, false == waveform data.
 var delayAmount=0;
 var delayNode;
 
@@ -69,15 +70,16 @@ window.onload = init;
 		showMenu=true;
 	}
 }*/
+function changeBackground (id){
+	var img=document.querySelector(id);
+	ctx.drawImage(img,width/2,height/2);
+}
 function setupUI(){
 	document.querySelector("#trackSelect").onchange = function(e){
 		playStream(audioElement,e.target.value);
 	};
 	document.querySelector("#backgroundSelect").onchange = function(e){
-		if (e.target.value=="none"){background=false;}
-		else{
-		background=true;
-		img=document.getElementById(e.target.value);}
+		changeBackground(e.target.value);
 	};
 		document.querySelector("#fsButton").onclick = function(){
 		requestFullscreen(canvas);
@@ -173,22 +175,29 @@ function setupUI(){
 			clines=false;
 		}
 	};
-	document.querySelector("#type").onchange = function(e){
-		if(e.target.checked){
-			dataType=false;
+	
+	canvas.addEventListener("mousemove", function(){
+		if(!mouseMove){
+			mouseMove = true;
 		}
-		else{
-			dataType=true;
+		else {
+			mouseMove = false;
 		}
-	};
-	document.querySelector("#canvas").mouseover = function(e){
-		mouseAnimation(e);
-	};
-	document.querySelector("#delaySlider").onchange = function(e){
+	});
+	
+	canvas.addEventListener("mousedown", function(){
+		if(!mouseDown){
+			mouseDown = true;
+		}
+		else {
+			mouseDown=false;
+		}
+	});
+	/*document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
 		delayNode.delayTime.value=delayAmount;
 		
-	};
+	};*/
 }
  // Full Screen
 		function requestFullscreen(element) {
@@ -272,31 +281,25 @@ function playStream(audioElement,path){
 
 function animation(){
 	requestAnimationFrame(animation); // this schedules a call to the animation() method in 1/60 seconds
-	var data = new Uint8Array(NUM_SAMPLES/2); // create a new array of 8-bit integers (0-255)
-	if (dataType){
+	data = new Uint8Array(NUM_SAMPLES/2); // create a new array of 8-bit integers (0-255)
 	analyserNode.getByteFrequencyData(data); // populate the array with the frequency data. notice these arrays can be passed "by reference" 
-	}
-	else {
-		analyserNode.getByteTimeDomainData(data); // waveform data
-	}
+	// OR
+	//analyserNode.getByteTimeDomainData(data); // waveform data		
+	
 	// drawings
 	ctx.clearRect(0,0,width,height);  
 	var barWidth = Math.floor(width/data.length);
 	var barSpacing = 1;
 	var barHeight = height/2;
 	var topSpacing = 50;
-	if (background==true){
-		ctx.drawImage(img,0,0);}
+	
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
-		if (dataType==false){
-			data[i]=data[i]*1.5;
-		}
-		var percent = data[i]/255;
+		percent = data[i]/255;
 		//Lines
 		if(clines){
 			ctx.save();
-			ctx.strokeStyle=drawGradients();//"red";
+			ctx.strokeStyle="red";
 			ctx.lineWidth=barWidth;
 			ctx.beginPath();
 			ctx.translate(0, canvas.height);
@@ -317,31 +320,24 @@ function animation(){
 		if(mCircle){
 			//red-ish circles
 			var circleRadius = percent*maxRadius;
-			ctx.beginPath();
-			ctx.fillStyle=makeColor(255, 111, 111, .34-percent/3.0);
-			ctx.arc(canvas.width/2, canvas.height/2, circleRadius, 0, 2*Math.PI, false);
-			ctx.fill();
-			ctx.closePath;
+			
+			ctx.save();
+			drawCircles(canvas.width/2,canvas.height/2,percent,maxRadius, getColor(255, 111, 111, .34-percent/3.0), 'rgba(0,0,0,0)');
+			ctx.restore();
 			//blue-ish circles, bigger, more transparent
-			ctx.beginPath();
-			ctx.fillStyle=makeColor(0,0,255, .10-percent/10.0);
-			ctx.arc(canvas.width/2,canvas.height/2,circleRadius*1.5,0,2*Math.PI, false);
-			ctx.fill();
-			ctx.closePath();
+			ctx.save();
+			drawCircles(canvas.width/2,canvas.height/2,percent,maxRadius*1.5, getColor(0,0,255, .10-percent/10.0), 'rgba(0,0,0,0)');
+			ctx.restore();
 			//yellow-ish circles, smaller
 			ctx.save();
-			ctx.beginPath();
-			ctx.fillStyle=makeColor(200,200,0,.5-percent/5.0);
-			ctx.arc(canvas.width/2, canvas.height/2,circleRadius*.50,0,2*Math.PI,false);
-			ctx.fill();
-			ctx.closePath();
+			drawCircles(canvas.width/2, canvas.height/2, percent, maxRadius*.50, getColor(200,200,0,.5-percent/5.0),'rgba(0,0,0,0)');
 			ctx.restore();
 		}
 		//Squares
 		if(mSquare){
 			var maxSize = 300;
 			var rectSize = percent * maxSize;
-			ctx.fillStyle = makeColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6);
+			ctx.fillStyle = getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6);
 			ctx.fillRect(canvas.width/2,canvas.height/2, rectSize, rectSize);
 			ctx.fillRect(canvas.width/2,canvas.height/2, -rectSize, -rectSize);
 			ctx.fillRect(canvas.width/2,canvas.height/2, rectSize, -rectSize);
@@ -353,53 +349,58 @@ function animation(){
 			//draw circles to the center
 				ctx.strokeStyle = 'rgba(0,255,0,0.6)'; 
 				ctx.strokeWidth = 5;
-				ctx.save();
-				ctx.beginPath();
+				
+				
+				ctx.save();				
 				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
-				ctx.arc(0,0,10,0, Math.PI*2, false);
-				ctx.closePath();
-				ctx.stroke();
+				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
 				ctx.restore();
 				
 				//draw inverted circles to the center
 				ctx.save();
-				ctx.beginPath();
 				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
-				ctx.arc(0,0,10,0, Math.PI*2, true);
-				ctx.closePath();
-				ctx.stroke();				
+				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');			
 				ctx.restore();
-				
-				// HARD MODE MORE CIRCLES
 				
 				//draw circles to the center
 				ctx.save();
-				ctx.beginPath();
 				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
-				ctx.arc(0,0,10,0, Math.PI*2, false);
-				ctx.closePath();
-				ctx.stroke();
+				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
 				ctx.restore();
 				
 				//draw inverted circles to the center
 				ctx.save();
-				ctx.beginPath();
 				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
-				ctx.arc(0,0,10,0, Math.PI*2, true);
-				ctx.closePath();
-				ctx.stroke();				
+				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
 				ctx.restore();
+		}
+		//mouse fucntions
+		if(mouseMove){
+			console.log("Mouse on canvas!");
+	
+			mouse = getMouse(e);
+	
+			drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');	
+		}
+		if(mouseDown){
+			console.log("Mouse was pressed!");
+	
+			mouse = getMouse(e);
+		
+			drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');
 		}
 	}
 	manipulatePixels(); 
 } 
 //drawing functions; used by several functions
-function drawCricles(x, y, percent, maxRadius, fillStyle){
+function drawCircles(x, y, percent, maxRadius, fillStyle, strokeStyle){
 	var circleRadius = percent * maxRadius;
 	ctx.beginPath();
 	ctx.fillStyle = fillStyle;
+	ctx.strokeStyle = strokeStyle;
 	ctx.arc(x, y, circleRadius, 0, 2*Math.PI, false);
 	ctx.fill();
+	ctx.stroke();
 	ctx.closePath;
 }
 function drawSquares(x, y, percent, maxSize, fillStyle){
@@ -410,17 +411,6 @@ function drawSquares(x, y, percent, maxSize, fillStyle){
 	ctx.fillRect(x,y, rectSize, -rectSize);
 	ctx.fillRect(x,y, -rectSize, rectSize);	
 }
-function drawGradients() {
-		var grad = ctx.createLinearGradient(0,0,width,height);
-		grad.addColorStop(0, 'red');
-		grad.addColorStop(1 / 6, 'orange');
-		grad.addColorStop(2 / 6, 'yellow');
-		grad.addColorStop(3 / 6, 'green')
-		grad.addColorStop(4 / 6, 'aqua');
-		grad.addColorStop(5 / 6, 'blue');
-		grad.addColorStop(1, 'purple');
-		return grad;
-	}
 // Pixel Manipulation
 function manipulatePixels(){
 	var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -434,10 +424,10 @@ function manipulatePixels(){
 		if(tintRed){
 			data[i]=data[i]+100;
 		}
-		if(tintGreen) {
+		if(tintBlue) {
 			data[i+1] = data[i] + 100;
 		}
-		if(tintBlue) {
+		if(tintGreen) {
 			data[i+2] = data[i] + 100;
 		}
 		//inverted
@@ -473,17 +463,17 @@ ctx.putImageData(imageData,0,0);
 }
 //user mouse interactions
 function mouseAnimation(e){
-	getMouse();
+	console.log("Mouse on canvas!");
 	
-	drawCircles(mouse.x, mouse.y, 0, 100, 'rgba(255,0,0,0.6)');
+	mouse = getMouse(e);
 	
+	drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');	
+}
+function doMouseDown(e){
+	console.log("Mouse was pressed!");
 	
+	mouse = getMouse(e);
+	
+	drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');
 }
 
-//HELPER (didn't worked in the untilities file.)
-
-
-function makeColor(red, green, blue, alpha){
-	var color='rgba('+red+','+green+','+blue+', '+alpha+')';
-	return color;
-}

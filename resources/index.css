@@ -10,7 +10,8 @@ canvas {
 }
 
 body {
-   /* background: #A3A3D8;*/
+   background: #000;
+   font-family: 'Abril Fatface', cursive;
 }
 
 h3 {
