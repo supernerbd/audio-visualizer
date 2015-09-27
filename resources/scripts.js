@@ -423,10 +423,10 @@ function manipulatePixels(){
 		if(tintRed){
 			data[i]=data[i]+100;
 		}
-		if(tintBlue) {
+		if(tintGreen) {
 			data[i+1] = data[i] + 100;
 		}
-		if(tintGreen) {
+		if(tintBlue) {
 			data[i+2] = data[i] + 100;
 		}
 		//inverted
