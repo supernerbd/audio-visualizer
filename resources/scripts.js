@@ -25,7 +25,7 @@ var noise = false, lines = false, bwNoise = false;
 var mCircle = false, mSquare = true, circle = true, clines = false, invert = false;
 var maxRadius=200;
 
-var data;
+var data, dataW;
 var percent;
 
 //interactive vars
@@ -282,9 +282,7 @@ function playStream(audioElement,path){
 function animation(){
 	requestAnimationFrame(animation); // this schedules a call to the animation() method in 1/60 seconds
 	data = new Uint8Array(NUM_SAMPLES/2); // create a new array of 8-bit integers (0-255)
-	analyserNode.getByteFrequencyData(data); // populate the array with the frequency data. notice these arrays can be passed "by reference" 
-	// OR
-	//analyserNode.getByteTimeDomainData(data); // waveform data		
+	analyserNode.getByteFrequencyData(data); // populate the array with the frequency data. notice these arrays can be passed "by reference" 	
 	
 	// drawings
 	ctx.clearRect(0,0,width,height);  
@@ -292,24 +290,30 @@ function animation(){
 	var barSpacing = 1;
 	var barHeight = height/2;
 	var topSpacing = 50;
-	
-	for(var i=0; i<data.length; i++) { // loop through the data and draw!
-		ctx.fillStyle = 'rgba(0,255,0,0.4)';
-		percent = data[i]/255;
-		//Lines
-		if(clines){
+	//Lines only when on. Uses waveform.
+	if(clines){
+		dataW = new Uint8Array(NUM_SAMPLES/2);
+		analyserNode.getByteTimeDomainData(dataW);
+		var barWidthW = Math.floor(width/dataW.length);
+		for(var i=0; i<dataW.length; i++) { 
+			dataW[i]=dataW[i]*1.5;
 			ctx.save();
-			ctx.strokeStyle="red";
+			ctx.strokeStyle=drawGradients();//"red";
 			ctx.lineWidth=barWidth;
 			ctx.beginPath();
 			ctx.translate(0, canvas.height);
 			ctx.scale(1, -1);
-			ctx.moveTo(i*(barWidth + barSpacing),1);
-			ctx.lineTo(i*(barWidth + barSpacing),data[i]);
+			ctx.moveTo(i*(barWidthW + barSpacing),1);
+			ctx.lineTo(i*(barWidth + barSpacing),dataW[i]);
 			ctx.closePath();
 			ctx.stroke();
 			ctx.restore();
 		}
+	}
+	for(var i=0; i<data.length; i++) { // loop through the data and draw!
+		ctx.fillStyle = 'rgba(0,255,0,0.4)';
+		percent = data[i]/255;
+		
 		// the higher the amplitude of the sample (bin) the taller the bar
 		// remember we have to draw our bars left-to-right and top-down
 		//ctx.fillRect(i * (barWidth + barSpacing),topSpacing + 256-data[i],barWidth,barHeight); 
@@ -430,6 +434,17 @@ function drawSquares(x, y, percent, maxSize, fillStyle){
 	ctx.fillRect(x,y, rectSize, -rectSize);
 	ctx.fillRect(x,y, -rectSize, rectSize);	
 }
+function drawGradients() {
+		var grad = ctx.createLinearGradient(0,0,width,height);
+		grad.addColorStop(0, 'red');
+		grad.addColorStop(1 / 6, 'orange');
+		grad.addColorStop(2 / 6, 'yellow');
+		grad.addColorStop(3 / 6, 'green')
+		grad.addColorStop(4 / 6, 'aqua');
+		grad.addColorStop(5 / 6, 'blue');
+		grad.addColorStop(1, 'purple');
+		return grad;
+	}
 // Pixel Manipulation
 function manipulatePixels(){
 	var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
