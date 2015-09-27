@@ -30,7 +30,7 @@ var maxRadius=200;
 
 //interactive vars
 
-
+var dataType=true; //true == frequency data, false == waveform data.
 var delayAmount=0;
 var delayNode;
 
@@ -173,7 +173,14 @@ function setupUI(){
 			clines=false;
 		}
 	};
-	
+	document.querySelector("#type").onchange = function(e){
+		if(e.target.checked){
+			dataType=false;
+		}
+		else{
+			dataType=true;
+		}
+	};
 	document.querySelector("#canvas").mouseover = function(e){
 		mouseAnimation(e);
 	};
@@ -266,10 +273,12 @@ function playStream(audioElement,path){
 function animation(){
 	requestAnimationFrame(animation); // this schedules a call to the animation() method in 1/60 seconds
 	var data = new Uint8Array(NUM_SAMPLES/2); // create a new array of 8-bit integers (0-255)
+	if (dataType){
 	analyserNode.getByteFrequencyData(data); // populate the array with the frequency data. notice these arrays can be passed "by reference" 
-	// OR
-	//analyserNode.getByteTimeDomainData(data); // waveform data		
-	
+	}
+	else {
+		analyserNode.getByteTimeDomainData(data); // waveform data
+	}
 	// drawings
 	ctx.clearRect(0,0,width,height);  
 	var barWidth = Math.floor(width/data.length);
@@ -280,6 +289,9 @@ function animation(){
 		ctx.drawImage(img,0,0);}
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
+		if (dataType==false){
+			data[i]=data[i]*1.5;
+		}
 		var percent = data[i]/255;
 		//Lines
 		if(clines){
