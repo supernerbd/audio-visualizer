@@ -394,6 +394,23 @@ function animation(){
 	manipulatePixels(); 
 } 
 //drawing functions; used by several functions
+/*function drawCurve(data){
+		ctx.save();
+    	ctx.lineWidth="3";
+		ctx.strokeStyle = "black";
+		ctx.beginPath();
+		
+		ctx.moveTo(0, 0);
+		ctx.quadraticCurveTo(data, data, width, height);
+		ctx.stroke();
+		
+		ctx.strokeStyle = "red";
+		ctx.beginPath();
+		ctx.moveTo(0, 0);
+		ctx.bezierCurveTo(5, 150, 50, 300, width, height);
+		ctx.stroke();
+		ctx.restore();
+    }*/
 function drawCricles(x, y, percent, maxRadius, fillStyle){
 	var circleRadius = percent * maxRadius;
 	ctx.beginPath();
