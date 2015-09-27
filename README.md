@@ -18,6 +18,15 @@ ToDo:
  - background image (changeable)
  - click events
  - change effects for click event
- - wave form/... change 
+ - wave form/... change !
  - one more audio node (equalizer)
  - polish	
+ 
+ gradient !
+ Bezier/ cubic bezier curves
+ web font !
+ comments
+ above and beyond
+ documentation!
+ 
+ comments, curves?, mouse event!s

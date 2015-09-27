@@ -193,11 +193,11 @@ function setupUI(){
 			mouseDown=false;
 		}
 	});
-	/*document.querySelector("#delaySlider").onchange = function(e){
+	document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
 		delayNode.delayTime.value=delayAmount;
 		
-	};*/
+	};
 }
  // Full Screen
 		function requestFullscreen(element) {
@@ -375,6 +375,7 @@ function animation(){
 				ctx.restore();
 		}
 		//mouse fucntions
+		/*
 		if(mouseMove){
 			console.log("Mouse on canvas!");
 	
@@ -388,7 +389,7 @@ function animation(){
 			mouse = getMouse(e);
 		
 			drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');
-		}
+		}*/
 	}
 	manipulatePixels(); 
 } 
