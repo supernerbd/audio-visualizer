@@ -177,11 +177,11 @@ function setupUI(){
 	document.querySelector("#canvas").mouseover = function(e){
 		mouseAnimation(e);
 	};
-	/*document.querySelector("#delaySlider").onchange = function(e){
+	document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
 		delayNode.delayTime.value=delayAmount;
 		
-	};*/
+	};
 }
  // Full Screen
 		function requestFullscreen(element) {
@@ -277,7 +277,7 @@ function animation(){
 	var barHeight = height/2;
 	var topSpacing = 50;
 	if (background==true){
-		ctx.drawImage(img,width/2,height/2);}
+		ctx.drawImage(img,0,0);}
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
 		var percent = data[i]/255;
