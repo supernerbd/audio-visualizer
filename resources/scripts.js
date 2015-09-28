@@ -79,11 +79,9 @@ function setupUI(){ //setup all eventListener and eventHandler
 	document.querySelector("#clickButton").onclick = function(e){
 		if (clickEnabled){
 			clickEnabled=false;
-			console.log("click off");
 			document.getElementById("clickButton").innerText = "Click Disabled";
 		} else{
 			clickEnabled=true;
-			console.log("click on");
 			document.getElementById("clickButton").innerText = "Click Enabled";
 		}
 	}
