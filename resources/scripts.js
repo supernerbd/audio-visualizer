@@ -38,7 +38,6 @@ var clicks = new Array();
 for (var i=0; i<20; i++){
 	clicks[i]=0;
 }
-//var clickX, clickY=0;
 //Init and resize
 
 
@@ -60,14 +59,11 @@ function setupUI(){
 		canvas.addEventListener("mousedown", function(e){
 		mouse = getMouse(e);
 		clicks[cCounter]=mouse.x;
-		console.log(clicks[cCounter]);
 		cCounter++;
 		clicks[cCounter]=mouse.y;
-		console.log(clicks[cCounter]);
 		cCounter++;
 		if(cCounter>=20){
 			cCounter=0;
-			console.log("counter");
 			for (var i=0; i<20; i++){
 				clicks[i]=0;
 			}
@@ -247,7 +243,8 @@ function animation(){
 	analyserNode.getByteFrequencyData(data); // populate the array with the frequency data. notice these arrays can be passed "by reference" 	
 	
 	// drawings
-	ctx.clearRect(0,0,width,height);  
+	ctx.fillStyle="black";
+	ctx.fillRect(0,0,width,height); 
 	var barWidth = Math.floor(width/data.length);
 	var barSpacing = 1;
 	var barHeight = height/2;

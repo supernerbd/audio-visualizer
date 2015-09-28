@@ -26,7 +26,9 @@ ToDo:
  Bezier/ cubic bezier curves
  web font !
  comments
- above and beyond
+ above and beyond !
  documentation!
  
- comments, curves?, mouse event!s
+ comments, curves?, mouse event!s !
+ 
+ modulazized
