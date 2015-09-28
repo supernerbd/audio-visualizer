@@ -33,7 +33,12 @@ var percent;
 
 //interactive vars
 var mouse;
-var clickX, clickY=0;
+var cCounter=0;
+var clicks = new Array();
+for (var i=0; i<20; i++){
+	clicks[i]=0;
+}
+//var clickX, clickY=0;
 //Init and resize
 
 
@@ -52,6 +57,22 @@ window.onload = init;
 
 //UI
 function setupUI(){
+		canvas.addEventListener("mousedown", function(e){
+		mouse = getMouse(e);
+		clicks[cCounter]=mouse.x;
+		console.log(clicks[cCounter]);
+		cCounter++;
+		clicks[cCounter]=mouse.y;
+		console.log(clicks[cCounter]);
+		cCounter++;
+		if(cCounter>=20){
+			cCounter=0;
+			console.log("counter");
+			for (var i=0; i<20; i++){
+				clicks[i]=0;
+			}
+		}
+	});
 	document.querySelector("#trackSelect").onchange = function(e){
 		playStream(audioElement,e.target.value);
 	};
@@ -155,11 +176,6 @@ function setupUI(){
 			clines=false;
 		}
 	};
-	canvas.addEventListener("mousedown", function(e){
-		mouse = getMouse(e);
-		clickX=mouse.x;
-		clickY=mouse.y;
-	});
 	document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
 		delayNode.delayTime.value=delayAmount;
@@ -179,16 +195,6 @@ function setupUI(){
 			}
 			// .. and do nothing if the method is not supported
 		};
-//part of show/hide controlbar
-//function showControls (){
-	//document.querySelector("#controls").style.setProperty("display","inherit");
-	//console.log("show")
-//}
-//function hideControls(){
-	//document.querySelector("#controls").style.setProperty("display","none");
-	//console.log("hide")
-//}
-
 
 //SOUND AND AUDIO
 
@@ -203,24 +209,13 @@ function initAudio(){
 function createWebAudioContextWithAnalyserNode(audioElement) {
 	var audioCtx, analyserNode, sourceNode;
 	// create new AudioContext
-	// The || is because WebAudio has not been standardized across browsers yet
-	// http://webaudio.github.io/web-audio-api/#the-audiocontext-interface
 	audioCtx = new (window.AudioContext || window.webkitAudioContext);
 		
 	// create an analyser node
 	analyserNode = audioCtx.createAnalyser();
 	// create DelayNote instance
 	delayNode=audioCtx.createDelay();
-	delayNode.delayTime.value=delayAmount;
-	/*
-	We will request NUM_SAMPLES number of samples or "bins" spaced equally 
-	across the sound spectrum.
-	
-	If NUM_SAMPLES (fftSize) is 256, then the first bin is 0 Hz, the second is 172 Hz, 
-	the third is 344Hz. Each bin contains a number between 0-255 representing 
-	the amplitude of that frequency.
-	*/ 
-			
+	delayNode.delayTime.value=delayAmount;	
 	// fft stands for Fast Fourier Transform
 	analyserNode.fftSize = NUM_SAMPLES;
 	
@@ -277,7 +272,7 @@ function animation(){
 			ctx.restore();
 		}
 	}
-	//Background
+	//Background only when selected
 	if (background==true){
 		ctx.drawImage(img,0,0);}
 	//Rest
@@ -351,8 +346,10 @@ function animation(){
 				ctx.restore();
 		}
 		//mouse fucntions
-		if(clickX!=0 && clickY!=0){
-			drawCircles(clickX, clickY, percent, maxRadius, getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6), getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6));
+		for (var j=0; j<=clicks.length; j++){
+			if(j%2==0 && clicks[j]!=0 && clicks[j+1]!=0){
+				drawCircles(clicks[j], clicks[j+1], percent, maxRadius, getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6), getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6));
+			}
 		}
 	}
 	manipulatePixels(); 
