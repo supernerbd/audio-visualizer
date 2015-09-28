@@ -34,7 +34,7 @@ var mouseMove = false, mouseDown = false;
 
 var delayAmount=0;
 var delayNode;
-
+var clickX, clickY=0;
 //Init and resize
 
 
@@ -175,23 +175,10 @@ function setupUI(){
 			clines=false;
 		}
 	};
-	
-	canvas.addEventListener("mousemove", function(){
-		if(!mouseMove){
-			mouseMove = true;
-		}
-		else {
-			mouseMove = false;
-		}
-	});
-	
-	canvas.addEventListener("mousedown", function(){
-		if(!mouseDown){
-			mouseDown = true;
-		}
-		else {
-			mouseDown=false;
-		}
+	canvas.addEventListener("mousedown", function(e){
+		mouse = getMouse(e);
+		clickX=mouse.x;
+		clickY=mouse.y;
 	});
 	document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
@@ -312,6 +299,7 @@ function animation(){
 	}
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
+		ctx.strokeStyle= 'rgba(0,255,0,0.4)';
 		percent = data[i]/255;
 		
 		// the higher the amplitude of the sample (bin) the taller the bar
@@ -379,21 +367,9 @@ function animation(){
 				ctx.restore();
 		}
 		//mouse fucntions
-		/*
-		if(mouseMove){
-			console.log("Mouse on canvas!");
-	
-			mouse = getMouse(e);
-	
-			drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');	
+		if(clickX!=0 && clickY!=0){
+			drawCircles(clickX, clickY, percent, maxRadius, getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6), getColor(Math.floor((Math.random() * 255) +1),0,Math.floor((Math.random() * 255) +1),.39 * percent/6));
 		}
-		if(mouseDown){
-			console.log("Mouse was pressed!");
-	
-			mouse = getMouse(e);
-		
-			drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');
-		}*/
 	}
 	manipulatePixels(); 
 } 
@@ -495,19 +471,3 @@ function manipulatePixels(){
 	}
 ctx.putImageData(imageData,0,0);
 }
-//user mouse interactions
-function mouseAnimation(e){
-	console.log("Mouse on canvas!");
-	
-	mouse = getMouse(e);
-	
-	drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');	
-}
-function doMouseDown(e){
-	console.log("Mouse was pressed!");
-	
-	mouse = getMouse(e);
-	
-	drawCircles(mouse.x, mouse.y, percent, maxRadius, 'rgba(255,0,0,.5)', 'rgba(0,0,0,0)');
-}
-
