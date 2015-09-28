@@ -16,6 +16,8 @@ var SOUND_2 = 'media/Flesh Maze Tango.mp3'; //'media/Peanuts Theme.mp3';
 var SOUND_3 = 'media/Peper Steak'; //'media/The Picard Song.mp3';
 var audioElement;
 var analyserNode;
+var delayAmount=0;
+var delayNode;
 var canvas,ctx;
 var background;
 // pixel manip vars
@@ -30,10 +32,6 @@ var percent;
 
 //interactive vars
 var mouse;
-var mouseMove = false, mouseDown = false;
-
-var delayAmount=0;
-var delayNode;
 var clickX, clickY=0;
 //Init and resize
 
@@ -43,35 +41,19 @@ function init(){
 	document.querySelector('#canvas').height=height;
 	canvas = document.querySelector ('#canvas');
 	ctx = canvas.getContext('2d');
-	//ctx.fillStyle = 'green';
-	//ctx.fillRect(0,0,width,height);
 	initAudio();
 	setupUI();
 	animation();
-	//possible way to show/hide control bar. Yet buggi and not reliable. I work on an improvement.
-	//canvas.onmousemove= function (){showControls(); 
-	//	setTimeout(hideControls,3000); 
-	//	console.log("init");}
 }
 window.onload = init;
 //window.onresize = init;
 
 
 //UI
-
-
-/*function hamburger (){
-	if(showMenu){
-		document.querySelector("#menu").style.setProperty("display","none");
-		showMenu=false;
-	}
-	else{
-		document.querySelector("#menu").style.setProperty("display","inherit");
-		showMenu=true;
-	}
-}*/
 function changeBackground (id){
-	var img=document.querySelector(id);
+	console.log(id);
+	var img="pic1";//document.querySelector(id);
+	console.log(img);
 	ctx.drawImage(img,width/2,height/2);
 }
 function setupUI(){
