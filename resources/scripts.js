@@ -19,7 +19,8 @@ var analyserNode;
 var delayAmount=0;
 var delayNode;
 var canvas,ctx;
-var background;
+var background=false;
+var img;
 // pixel manip vars
 var tintRed = false, tintBlue = false, tintGreen = false;
 var noise = false, lines = false, bwNoise = false;
@@ -50,18 +51,15 @@ window.onload = init;
 
 
 //UI
-function changeBackground (id){
-	console.log(id);
-	var img="pic1";//document.querySelector(id);
-	console.log(img);
-	ctx.drawImage(img,width/2,height/2);
-}
 function setupUI(){
 	document.querySelector("#trackSelect").onchange = function(e){
 		playStream(audioElement,e.target.value);
 	};
 	document.querySelector("#backgroundSelect").onchange = function(e){
-		changeBackground(e.target.value);
+		if (e.target.value=="none"){background=false;}
+		else{
+		background=true;
+		img=document.getElementById(e.target.value);}
 	};
 		document.querySelector("#fsButton").onclick = function(){
 		requestFullscreen(canvas);
@@ -279,6 +277,10 @@ function animation(){
 			ctx.restore();
 		}
 	}
+	//Background
+	if (background==true){
+		ctx.drawImage(img,0,0);}
+	//Rest
 	for(var i=0; i<data.length; i++) { // loop through the data and draw!
 		ctx.fillStyle = 'rgba(0,255,0,0.4)';
 		ctx.strokeStyle= 'rgba(0,255,0,0.4)';
