@@ -9,7 +9,10 @@ var NUM_SAMPLES = 256;
 var MAXRADIUS = 200;
 var SOUND_1 = 'media/Fake Orchestra.mp3'; 
 var SOUND_2 = 'media/Flesh Maze Tango.mp3'; 
-var SOUND_3 = 'media/Peper Steak'; 
+var SOUND_3 = 'media/Magic Pipe.mp3'; 
+var SOUND_4 = 'media/Meaning Of His Tears.mp3'; 
+var SOUND_5 = 'media/Minuit A Fond La Caisse.mp3'; 
+var SOUND_6 = 'media/Peper Steak'; 
 var audioElement, delayNode, analyserNode;
 var delayAmount=0;
 var canvas,ctx;
@@ -25,16 +28,14 @@ var data, dataW, percent;
 //interactive vars
 var clickEnabled=true, controlsOn=false;
 // mouse control vars
-
 var mouse;
 var cCounter=0;
 var clicks = new Array(); //init array
 for (var i=0; i<20; i++){
 	clicks[i]=0;
 }
+
 //Init and resize
-
-
 function init(){ //init canvas, audio, animation and ui
 	document.querySelector('#canvas').width=width; //resize the canvas drawing area.
 	document.querySelector('#canvas').height=height;
@@ -45,7 +46,6 @@ function init(){ //init canvas, audio, animation and ui
 	animation();
 }
 window.onload = init;
-
 
 //UI
 function setupUI(){ //setup all eventListener and eventHandler
@@ -64,135 +64,108 @@ function setupUI(){ //setup all eventListener and eventHandler
 			}
 		}
 	});
+	//select track
 	document.querySelector("#trackSelect").onchange = function(e){
 		playStream(audioElement,e.target.value);
 	};
+	//select background
 	document.querySelector("#backgroundSelect").onchange = function(e){
 		if (e.target.value=="none"){backgroundPic=false;}
 		else{
 		backgroundPic=true;
 		img=document.getElementById(e.target.value);}
 	};
-	document.querySelector("#clickButton").onclick = function(){
+	//enable/disable click function - also changes button text
+	document.querySelector("#clickButton").onclick = function(e){
 		if (clickEnabled){
 			clickEnabled=false;
-		}
-		else{
+			console.log("click off");
+			document.getElementById("clickButton").innerText = "Click Disabled";
+		} else{
 			clickEnabled=true;
+			console.log("click on");
+			document.getElementById("clickButton").innerText = "Click Enabled";
 		}
 	}
+	//menu hide/show
 	document.querySelector("#controlsButton").onclick = function(){
 		if (controlsOn) {
 			document.querySelector("#controls").style.setProperty("display","none");
 			document.querySelector("#controls").style.setProperty("display","none");
 			controlsOn=false;
-		}
-		else{
+		} else{
 			document.querySelector("#controls").style.setProperty("display","inherit");
 			controlsOn=true;
 		}
 	}
+	//select background color
 	document.querySelector("#backgroundSelectColor").onchange = function(e){
 		backgroundColor=e.target.value;
 	};
+	//fullscreen
 	document.querySelector("#fsButton").onclick = function(){
 		requestFullscreen(canvas);
 	};
+	//change circle radius
 	document.querySelector("#radius").onchange = function(e){
 		MAXRADIUS=e.target.value;
 	};
+	//color tints
 	document.querySelector("#red").onchange = function(e){
-		if(e.target.checked){
-			tintRed=true;
-		}
-		else{
-			tintRed=false;
-		}
+		if(e.target.checked){ tintRed=true;}
+		else{ tintRed=false; }
 	};
 	document.querySelector("#blue").onchange = function(e){
-		if(e.target.checked){
-			tintBlue=true;
-		}
-		else{
-			tintBlue=false;
-		}
+		if(e.target.checked){ tintBlue=true; }
+		else{ tintBlue=false; }
 	};
 	document.querySelector("#green").onchange = function(e){
-		if(e.target.checked){
-			tintGreen=true;
-		}
-		else{
-			tintGreen=false;
-		}
+		if(e.target.checked){ tintGreen=true; }
+		else{ tintGreen=false; }
 	};
 	document.querySelector("#invert").onchange = function(e){
-		if(e.target.checked){
-			invert=true;
-		}
-		else{
-			invert=false;
-		}
+		if(e.target.checked){ invert=true; }
+		else{ invert=false; }
 	};
+	//add noise
 	document.querySelector("#noise").onchange = function(e){
-		if(e.target.checked){
-			noise=true;
-		}
-		else{
-			noise=false;
-		}
+		if(e.target.checked){ noise=true; }
+		else{ noise=false; }
 	};
+	//add lines
 	document.querySelector("#lines").onchange = function(e){
-		if(e.target.checked){
-			lines=true;
-		}
-		else{
-			lines=false;
-		}
+		if(e.target.checked){lines=true;}
+		else{lines=false;}
 	};
+	//add black and white nosie
 	document.querySelector("#bwNoise").onchange = function(e){
-		if(e.target.checked){
-			bwNoise=true;
-		}
-		else{
-			bwNoise=false;
-		}
+		if(e.target.checked){ bwNoise=true; } 
+		else{ bwNoise=false; }
 	};
+	//frequency circle lines
 	document.querySelector("#mCircle").onchange = function(e){
-		if(e.target.checked){
-			mCircle=true;
-		}
-		else{
-			mCircle=false;
-		}
+		if(e.target.checked){mCircle=true;}
+		else{mCircle=false;}
 	};
+	//center square
 	document.querySelector("#mSquare").onchange = function(e){
-		if(e.target.checked){
-			mSquare=true;
-		}
-		else{
-			mSquare=false;
-		}
+		if(e.target.checked){mSquare=true;}
+		else{mSquare=false;}
 	};
+	//center circle
 	document.querySelector("#circle").onchange = function(e){
-		if(e.target.checked){
-			circle=true;
-		}
-		else{
-			circle=false;
-		}
+		if(e.target.checked){circle=true;}
+		else{circle=false;}
 	};
+	//waveform lines
 	document.querySelector("#clines").onchange = function(e){
-		if(e.target.checked){
-			clines=true;
-		}
-		else{
-			clines=false;
-		}
+		if(e.target.checked){clines=true;}
+		else{clines=false;}
 	};
+	//audio delay
 	document.querySelector("#delaySlider").onchange = function(e){
 		delayAmount=e.target.value;
-		delayNode.delayTime.value=delayAmount;
-		
+		delayNode.delayTime.value=delayAmount;		
 	};
 }
  // Full Screen
@@ -210,7 +183,6 @@ function requestFullscreen(element) {
 };
 
 //SOUND AND AUDIO
-
 
 function initAudio(){ //init audio
 	audioElement = document.querySelector('audio');
@@ -250,9 +222,7 @@ function playStream(audioElement,path){ //playing audio streams
 	audioElement.volume = 0.2;
 }
 
-
 //DRAWINGS
-
 
 function animation(){ //animations on canvas
 	requestAnimationFrame(animation); // this schedules a call to the animation() method in 1/60 seconds
@@ -321,37 +291,36 @@ function animation(){ //animations on canvas
 			ctx.fillRect(canvas.width/2,canvas.height/2, -rectSize, -rectSize);
 			ctx.fillRect(canvas.width/2,canvas.height/2, rectSize, -rectSize);
 			ctx.fillRect(canvas.width/2,canvas.height/2, -rectSize, rectSize);
-		}
+		} //draws four squares around a center point on the page at the same time, giving the appearance of a larger square being drawn from the center outwards
 		
 		//mini circles
-		if(circle){
+		if(circle){			
+			ctx.strokeStyle = 'rgba(0,255,0,0.6)'; 
+			ctx.strokeWidth = 5;
+				
 			//draw circles to the center
-				ctx.strokeStyle = 'rgba(0,255,0,0.6)'; 
-				ctx.strokeWidth = 5;
+			ctx.save();				
+			ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
+			drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
+			ctx.restore();
 				
-				
-				ctx.save();				
-				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
-				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
-				ctx.restore();
-				
-				//draw inverted circles to the center
-				ctx.save();
-				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
-				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');			
-				ctx.restore();
-				
-				//draw circles to the center
-				ctx.save();
-				ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
-				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
-				ctx.restore();
-				
-				//draw inverted circles to the center
-				ctx.save();
-				ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
-				drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
-				ctx.restore();
+			//draw inverted circles to the center
+			ctx.save();
+			ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2+100)-data[i]);
+			drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');			
+			ctx.restore();
+			
+			//draw circles to the center
+			ctx.save();
+			ctx.translate((width/2-2) + i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
+			drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
+			ctx.restore();
+			
+			//draw inverted circles to the center
+			ctx.save();
+			ctx.translate((width/2+2) - i * (barWidth + barSpacing),topSpacing + (height/2-100)+data[i]);
+			drawCircles(0,0,1,10, 'rgba(0,0,0,0)', 'rgba(0,255,0,1)');
+			ctx.restore();
 		}
 		//mouse fucntion
 		//draw circle at each x and y in array
@@ -363,7 +332,7 @@ function animation(){ //animations on canvas
 	}
 	manipulatePixels(); 
 } 
-// function for mouse control
+// function to draw multiple circles 
 function drawCircles(x, y, percent, maxRadius, fillStyle, strokeStyle){ //draw circle on x and y of each of the mouse clicks
 	var circleRadius = percent * maxRadius;
 	ctx.beginPath();

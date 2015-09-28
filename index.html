@@ -15,7 +15,7 @@
 <body>
 	<div id="buttons">
 	<button class="button" id="controlsButton">Menu</button> <br> <br>
-	<button class="button" id="clickButton">Click on/off</button>
+	<button class="button" id="clickButton">Click Enabled</button>
 	</div>
 	<div id="controls">
 		<!--controls in here-->
@@ -25,6 +25,9 @@
 			<select id="trackSelect" >
 				<option value="media/Fake Orchestra.mp3">Fake Orchestra</option>
 				<option value="media/Flesh Maze Tango.mp3">Flesh Maze Tango</option>
+				<option value="media/Magic Pipe.mp3">Magic Pipe</option>
+				<option value="media/Meaning Of His Tears.mp3">Meaning Of His Tears</option>
+				<option value="media/Minuit A Fond La Caisse.mp3">Minuit A Fond La Caisse</option>
 				<option value="media/Peper Steak.mp3">Peper Steak</option>
 					
 			</select>
@@ -53,7 +56,7 @@
 		<h3>Display Effects:</h3>			
 			<p>
 			Circles On/Off<input type="checkbox" id="mCircle">
-				&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp; <!-- these are spaces so each function has room and isn't directly next to another-->
 			Circle Radius<input type="range" name="radius" id="radius" min="100" max="300" step="10"; value="200";>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			Squares On/Off<input type="checkbox" id="mSquare" checked>
@@ -76,8 +79,8 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			Add Lines <input type="checkbox" id="lines">
 				&nbsp;&nbsp;&nbsp;&nbsp;
-			Black and White Noise <input type="checkbox" id="bwNoise"><br>
-		</p>
+			Black and White Noise <input type="checkbox" id="bwNoise">
+		<br></p>
 	</div>
 	<canvas id="canvas" width="640" height="400"></canvas> <!-- canvas height and width has to be changed in init()-->
 	<img src="media/1.jpg" id="pic1"/>

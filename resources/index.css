@@ -6,10 +6,10 @@ canvas {
 
 body {
    background: #000;
-   font-family: 'Abril Fatface', cursive;
+   font-family: 'Abril Fatface', cursive; /*Embedded Font from Google*/
 }
 
-h3 {
+h3 {	
 	font-size: 14px;
 	text-align: center;
 	padding: 0px;
@@ -17,8 +17,7 @@ h3 {
 
 p, div {
 	text-align: center;
-	font-size: 11px;
-	
+	font-size: 12px;
 }
 
 button, label, select {
@@ -29,10 +28,10 @@ button, label, select {
 .button{
 	font-size: 20px;
 	padding-left: 10px;
-	background-color:black;
+	background-color: #333;
 	border: 1px solid black;
 	text-decoration:none;
-	color:white;
+	color: #FFF;
 }
 
 #buttons {
@@ -42,19 +41,19 @@ button, label, select {
 	/*padding: 10px;*/
 	color: #fff;
 	position: fixed;
-	top:0px;
-	left:0px;
+	top: 0px;
+	left: 0px;
 }
 #controls{
-	background: black;
+	background: #111;
 	width: 100%;
 	/*margin: 10px auto;*/
 	z-index:2;
 	/*padding: 10px;*/
-	color: #fff;
+	color: #CCC;
 	position: fixed;
-	top:0px;
-	left:0px;
+	top: 0px;
+	left: 0px;
 	display: none;
 }
 
