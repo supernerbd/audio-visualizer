@@ -1,33 +1,9 @@
-todo
+# Audio Visualizer
 
+The Audio Vizualizer was created as part of the [Rich Media Web App Dev](http://igm.rit.edu/~acjvks/courses/2015-fall/330/syllabus.html) 
+course at Rochester Institute of Technology together with July Stocker. It was the first big project:
 
-Feature Ideas:
-    - allow users to upload own img for background
-    - allow users to stream radio
-    - elements/shapes dropping from top and falling to bottom to the audio info
-    - selection of background images (choose from a dropdown, or clicking an image icon)
-    - pixel manip - gradient? (allowing user to input two hex codes)
-    - up to four canvases 
-    - equalizer
-    - UI menu's on top, canvas 100& of the page
-    - using mouse position, draw circles from center from cursor; if user clicks, cricles stay put
-	
-ToDo:
- - add music
- - background image (changeable)
- - click events
- - change effects for click event
- - wave form/... change !
- - one more audio node (equalizer)
- - polish	
- 
- gradient !
- Bezier/ cubic bezier curves
- web font !
- comments
- above and beyond !
- documentation!
- 
- comments, curves?, mouse event!s !
- 
- modulazized
+>Your mission (with a partner) is to build a unique interactive audio visualization experience that utilizes the Web Audio and Canvas APIs.
+
+[Link to full assignment](http://igm.rit.edu/~acjvks/courses/2015-fall/330/html/project-1/)
+
