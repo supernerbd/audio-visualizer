@@ -7,3 +7,4 @@ course at Rochester Institute of Technology together with July Stocker. It was t
 
 [Link to full assignment](http://igm.rit.edu/~acjvks/courses/2015-fall/330/html/project-1/)
 
+The Audio Visualizer is live [here](http://av.bpaul.us)
